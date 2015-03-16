@@ -14,7 +14,9 @@ public class FileResource {
 	private long sizeInBytes;
 	private int depth = 0;// considering a tree with a single node has a depth
 							// of 1
-
+	public long getSize(){
+		return sizeInBytes;
+	}
 	public void setFile(String string) {
 		FILE_NAME = string;
 		sizeInBytes = (new File(string)).length();
@@ -32,10 +34,11 @@ public class FileResource {
 		int c;
 		int bytesRead = 0;
 		int index = 0;
-		ArrayList<Node> leafQueue=tree.getLeafQueue();
-		Node leaf = leafQueue.get(index);
+		ArrayList<LeafNode> leafQueue=tree.getLeafQueue();
+		LeafNode leaf = leafQueue.get(index);
 		CRC32 crc = leaf.getCrc();
-		byte[] bytes = new byte[1024];
+		leaf.setStartByteIndex(0);
+		byte[] bytes = new byte[Constants.BLOCK_SIZE];
 		try {
 			in = new FileInputStream(FILE_NAME);
 
@@ -45,13 +48,17 @@ public class FileResource {
 
 				if (bytesRead == Constants.BLOCK_SIZE) {
 					crc.update(bytes);
+					leaf.setEndByteIndex((index+1)*Constants.BLOCK_SIZE);
 					index++;
 					leaf = leafQueue.get(index);
+					leaf.setStartByteIndex(index*Constants.BLOCK_SIZE +1);
 					crc = leaf.getCrc();
 					bytesRead = 0;
-					bytes = new byte[1024];
+					bytes = new byte[Constants.BLOCK_SIZE];
 				}
 			}
+			crc.update(bytes);
+			leaf.setEndByteIndex(index*Constants.BLOCK_SIZE + bytesRead);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -66,5 +73,17 @@ public class FileResource {
 
 		}
 
+	}
+
+	public void computeCrc() {
+		tree.computeCrc();
+		
+	}
+	public MerkleTree getTree(){
+		return tree;
+	}
+	public boolean compareTrees(FileResource file2) {
+		MerkleTree tree2=file2.getTree();
+		return tree.compareTo(tree2);
 	}
 }

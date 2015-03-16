@@ -8,12 +8,7 @@ public class FileLoader {
 		file2=new FileResource();
 	}
 
-	/**
-	 * @param args
-	 */
-	public boolean buildTree(){
-		
-	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		FileLoader loader=new FileLoader();
@@ -23,8 +18,19 @@ public class FileLoader {
 			loader.file2.setFile(args[1]);
 			loader.file1.buildTree();
 			loader.file2.buildTree();
+			loader.file1.computeCrc();
+			loader.file2.computeCrc();
+			System.out.println(loader.compareFiles());
 		}
 
+	}
+
+
+	private boolean compareFiles() {
+		if(file1.getSize()<=file2.getSize())
+			return file1.compareTrees(file2);
+		else
+			return file2.compareTrees(file1);
 	}
 
 }
