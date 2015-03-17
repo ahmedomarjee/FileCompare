@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.zip.CRC32;
 
 public class MerkleTree {
-	private Node root;
+	private Node root = new Node();
 	private int depth = 0;
 	private ArrayList<LeafNode> leafQueue;// This is an ordered list having all
-										// leaves of the tree from left to right
+											// leaves of the tree from left to
+											// right
 
 	public MerkleTree(int d) {
 		depth = d;
@@ -22,10 +23,9 @@ public class MerkleTree {
 			CRC32 c1 = computeCrc(n.getLeftChild());
 			CRC32 c2 = computeCrc(n.getRightChild());
 			CRC32 c3 = n.getCrc();
-			byte[] bytes; 
+			byte[] bytes;
 			if (c1.getValue() != 0) {
-				bytes= ByteBuffer.allocate(8).putLong(c1.getValue())
-						.array();
+				bytes = ByteBuffer.allocate(8).putLong(c1.getValue()).array();
 				c3.update(bytes);
 			}
 			if (c2.getValue() != 0) {
@@ -57,9 +57,9 @@ public class MerkleTree {
 			} else {
 
 				n.setLeftChild(new LeafNode());
-				leafQueue.add((LeafNode)n.getLeftChild());
+				leafQueue.add((LeafNode) n.getLeftChild());
 				n.setRightChild(new LeafNode());
-				leafQueue.add((LeafNode)n.getRightChild());
+				leafQueue.add((LeafNode) n.getRightChild());
 			}
 		}
 	}
@@ -74,27 +74,29 @@ public class MerkleTree {
 	}
 
 	public boolean compareTo(MerkleTree tree2) {
-		if(root.getCrc().getValue()==tree2.getRoot().getCrc().getValue()){
-			return  true;
-		}
-		else{
+		if (root.getCrc().getValue() == tree2.getRoot().getCrc().getValue()) {
+			return true;
+		} else {
 			findDiff(root, tree2.getRoot());
 			return false;
 		}
 	}
 
 	private void findDiff(Node root2, Node root3) {
-		if(root2.getLeftChild()==null)
-			System.out.println(((LeafNode)root2).getStartByteIndex()+" to "+((LeafNode)root2).getEndByteIndex());
-		if(root2.getLeftChild().getCrc().getValue()!=root3.getLeftChild().getCrc().getValue())
-		{
+		if (root2.getLeftChild() == null) {
+			System.out.println(((LeafNode) root2).getStartByteIndex() + " to "
+					+ ((LeafNode) root2).getEndByteIndex());
+			return;
+		}
+		if (root2.getLeftChild().getCrc().getValue() != root3.getLeftChild()
+				.getCrc().getValue()) {
 			findDiff(root2.getLeftChild(), root3.getLeftChild());
 		}
-		if(root2.getRightChild().getCrc().getValue()!=root3.getRightChild().getCrc().getValue()){
+		if (root2.getRightChild().getCrc().getValue() != root3.getRightChild()
+				.getCrc().getValue()) {
 			findDiff(root2.getRightChild(), root3.getRightChild());
 		}
-		
-	}
 
+	}
 
 }

@@ -9,7 +9,7 @@ import java.util.zip.CRC32;
 public class FileResource {
 
 	private int numberOfLeaves = 0;
-	private static String FILE_NAME;
+	private String FILE_NAME;
 	private MerkleTree tree;
 	private long sizeInBytes;
 	private int depth = 0;// considering a tree with a single node has a depth
@@ -24,6 +24,8 @@ public class FileResource {
 		if ((sizeInBytes % Constants.BLOCK_SIZE) > 0)
 			numberOfLeaves++;
 		depth = (int) (Math.ceil(Math.log10(numberOfLeaves) / Math.log10(2)) + 1);
+		if(depth==1)
+			depth++; //minimum depth is 2
 		tree = new MerkleTree(depth);
 		tree.createEmptyTree();
 	}
@@ -57,8 +59,8 @@ public class FileResource {
 					bytes = new byte[Constants.BLOCK_SIZE];
 				}
 			}
-			crc.update(bytes);
 			leaf.setEndByteIndex(index*Constants.BLOCK_SIZE + bytesRead);
+			crc.update(bytes, 0, bytesRead);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
