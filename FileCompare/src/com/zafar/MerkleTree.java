@@ -77,15 +77,24 @@ public class MerkleTree {
 		if (root.getCrc().getValue() == tree2.getRoot().getCrc().getValue()) {
 			return true;
 		} else {
-			findDiff(root, tree2.getRoot());
+			findDiff(tree2);
 			return false;
 		}
 	}
-
-	private void findDiff(Node root2, Node root3) {
+	
+	private void findDiff(MerkleTree other){
+		ArrayList<LeafNode> otherLeaves = other.getLeafQueue();
+		for(int i=0,j=0; i<leafQueue.size(); i++,j++){ //leafQueue is lesser or equal in size to leaves
+			if(leafQueue.get(i).getCrc().getValue()!=otherLeaves.get(j).getCrc().getValue()){
+				
+			}
+		}
+	}
+/*	private void findDiff(Node root2, Node root3) {
 		if (root2.getLeftChild() == null) {
 			System.out.println(((LeafNode) root2).getStartByteIndex() + " to "
 					+ ((LeafNode) root2).getEndByteIndex());
+			
 			return;
 		}
 		if (root2.getLeftChild().getCrc().getValue() != root3.getLeftChild()
@@ -98,5 +107,5 @@ public class MerkleTree {
 		}
 
 	}
-
+*/
 }
