@@ -17,9 +17,14 @@ public class FileResource {
 	public long getSize(){
 		return sizeInBytes;
 	}
-	public void setFile(String string) {
+	public boolean setFile(String string) {
 		FILE_NAME = string;
 		sizeInBytes = (new File(string)).length();
+		if(sizeInBytes==0)
+		{
+			System.out.println("Either the given path is incorrect or file is empty.");
+			return false;
+		}
 		numberOfLeaves = (int) (sizeInBytes / Constants.BLOCK_SIZE);
 		if ((sizeInBytes % Constants.BLOCK_SIZE) > 0)
 			numberOfLeaves++;
@@ -29,6 +34,7 @@ public class FileResource {
 		tree = new MerkleTree(depth);
 		tree.createEmptyTree();
 		System.out.println("Empty tree created for "+FILE_NAME);
+		return true;
 	}
 
 	public void buildTree() {
