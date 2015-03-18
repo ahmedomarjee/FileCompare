@@ -27,6 +27,7 @@ public class FileLoader {
 
 
 	private boolean compareFiles() {
+	
 		if(file1.getSize()<=file2.getSize())
 			return file1.compareTrees(file2);
 		else

@@ -86,6 +86,6 @@ public class FileResource {
 	}
 	public boolean compareTrees(FileResource file2) {
 		MerkleTree tree2=file2.getTree();
-		return tree.compareTo(tree2);
+		return tree.compareTo(tree2, FILE_NAME, file2.FILE_NAME);
 	}
 }

@@ -73,39 +73,45 @@ public class MerkleTree {
 
 	}
 
-	public boolean compareTo(MerkleTree tree2) {
+	public boolean compareTo(MerkleTree tree2, String smallerFileName,
+			String biggerFileName) {
 		if (root.getCrc().getValue() == tree2.getRoot().getCrc().getValue()) {
 			return true;
 		} else {
-			findDiff(tree2);
+			findDiff(tree2, smallerFileName, biggerFileName);
 			return false;
 		}
 	}
-	
-	private void findDiff(MerkleTree other){
+
+	/*
+	 * This is as yet unfinished
+	 */
+	private void findDiff(MerkleTree other, String smallerFileName,
+			String biggerFileName) {
 		ArrayList<LeafNode> otherLeaves = other.getLeafQueue();
-		for(int i=0,j=0; i<leafQueue.size(); i++,j++){ //leafQueue is lesser or equal in size to leaves
-			if(leafQueue.get(i).getCrc().getValue()!=otherLeaves.get(j).getCrc().getValue()){
-				
+		for (int i = 0; i < leafQueue.size(); i++) { // leafQueue is lesser or
+														// equal in size to
+														// otherLeaves
+			if (leafQueue.get(i).getCrc().getValue() != otherLeaves.get(i)
+					.getCrc().getValue()) {
+				System.out.println("Problem matching " + smallerFileName
+						+ " byte index " + leafQueue.get(i).getStartByteIndex()
+						+ " to " + leafQueue.get(i).getEndByteIndex());
 			}
 		}
 	}
-/*	private void findDiff(Node root2, Node root3) {
-		if (root2.getLeftChild() == null) {
-			System.out.println(((LeafNode) root2).getStartByteIndex() + " to "
-					+ ((LeafNode) root2).getEndByteIndex());
-			
-			return;
-		}
-		if (root2.getLeftChild().getCrc().getValue() != root3.getLeftChild()
-				.getCrc().getValue()) {
-			findDiff(root2.getLeftChild(), root3.getLeftChild());
-		}
-		if (root2.getRightChild().getCrc().getValue() != root3.getRightChild()
-				.getCrc().getValue()) {
-			findDiff(root2.getRightChild(), root3.getRightChild());
-		}
-
-	}
-*/
+	/*
+	 * private void findDiff(Node root2, Node root3) { if (root2.getLeftChild()
+	 * == null) { System.out.println(((LeafNode) root2).getStartByteIndex() +
+	 * " to " + ((LeafNode) root2).getEndByteIndex());
+	 * 
+	 * return; } if (root2.getLeftChild().getCrc().getValue() !=
+	 * root3.getLeftChild() .getCrc().getValue()) {
+	 * findDiff(root2.getLeftChild(), root3.getLeftChild()); } if
+	 * (root2.getRightChild().getCrc().getValue() != root3.getRightChild()
+	 * .getCrc().getValue()) { findDiff(root2.getRightChild(),
+	 * root3.getRightChild()); }
+	 * 
+	 * }
+	 */
 }
