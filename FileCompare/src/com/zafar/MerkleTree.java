@@ -36,7 +36,9 @@ public class MerkleTree {
 			return c3;
 		}
 	}
-
+    /*
+    * Create empty complete Binary Tree 
+    */
 	public void createEmptyTree() {
 		createRecursively(root, 1);
 	}
@@ -84,7 +86,7 @@ public class MerkleTree {
 	}
 
 	/*
-	 * This is as yet unfinished
+	 * This is as yet not perfect
 	 */
 	private void findDiff(MerkleTree other, String smallerFileName,
 			String biggerFileName) {
@@ -92,6 +94,8 @@ public class MerkleTree {
 		for (int i = 0; i < leafQueue.size(); i++) { // leafQueue is lesser or
 														// equal in size to
 														// otherLeaves
+			if(leafQueue.get(i).getStartByteIndex()==0 && leafQueue.get(i).getEndByteIndex()==0)
+				break;
 			if (leafQueue.get(i).getCrc().getValue() != otherLeaves.get(i)
 					.getCrc().getValue()) {
 				System.out.println("Problem matching " + smallerFileName

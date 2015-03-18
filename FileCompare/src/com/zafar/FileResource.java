@@ -28,6 +28,7 @@ public class FileResource {
 			depth++; //minimum depth is 2
 		tree = new MerkleTree(depth);
 		tree.createEmptyTree();
+		System.out.println("Empty tree created for "+FILE_NAME);
 	}
 
 	public void buildTree() {
@@ -74,6 +75,7 @@ public class FileResource {
 			}
 
 		}
+		System.out.println("Tree filled for "+FILE_NAME);
 
 	}
 

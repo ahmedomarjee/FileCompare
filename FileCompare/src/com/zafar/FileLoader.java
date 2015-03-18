@@ -10,7 +10,7 @@ public class FileLoader {
 
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	
 		FileLoader loader=new FileLoader();
 		if(args.length==2)
 		{
@@ -20,7 +20,8 @@ public class FileLoader {
 			loader.file2.buildTree();
 			loader.file1.computeCrc();
 			loader.file2.computeCrc();
-			System.out.println(loader.compareFiles());
+			System.out.println("Comparing now");
+			System.out.println("Matches: "+loader.compareFiles());
 		}
 
 	}
