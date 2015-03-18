@@ -23,6 +23,8 @@ public class FileLoader {
 				System.out.println("Matches: " + loader.compareFiles());
 			}
 		}
+		else
+			System.out.println("Give only two argments as file names, no less no more.");
 
 	}
 
